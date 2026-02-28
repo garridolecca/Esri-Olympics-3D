@@ -62,7 +62,7 @@ function updateWeather(type) {
     sunny:  { type: "sunny",  cloudCover: 0.15 },
     cloudy: { type: "cloudy", cloudCover: 0.65 },
     foggy:  { type: "foggy",  fogStrength: 0.35 },
-    rainy:  { type: "rainy",  cloudCover: 0.85, precipitation: "rain" }
+    rainy:  { type: "rainy",  cloudCover: 0.85, precipitation: 0.5 }
   };
   _view.environment.weather = configs[type] || configs.sunny;
 }
