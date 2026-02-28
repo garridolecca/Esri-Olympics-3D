@@ -8,12 +8,12 @@
   <script type="importmap">
   {
     "imports": {
-      "@arcgis/core/": "https://js.arcgis.com/4.32/@arcgis/core/"
+      "@arcgis/core/": "https://js.arcgis.com/5.0/@arcgis/core/"
     }
   }
   </script>
 
-  <link rel="stylesheet" href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/dark/main.css" />
+  <link rel="stylesheet" href="https://js.arcgis.com/5.0/@arcgis/core/assets/esri/themes/dark/main.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -94,6 +94,47 @@
   <div class="sb-sec">
     <div class="sb-sec-title">Venue Details</div>
     <div class="igrid" id="sbInfo"></div>
+  </div>
+</div>
+
+<!-- ====== ENVIRONMENT CONTROLS (5.0 Features) ====== -->
+<div id="envPanel">
+  <div class="env-hd" id="envToggleBtn">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+    <span>Environment</span>
+    <svg class="env-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+  <div class="env-body" id="envBody">
+    <div class="env-row">
+      <div class="env-lbl">Time of Day</div>
+      <input type="range" class="env-slider" id="daylightSlider" min="0" max="23.5" value="10" step="0.5" />
+      <div class="env-val" id="daylightLabel">10:00 AM</div>
+    </div>
+    <div class="env-row">
+      <div class="env-lbl">Weather</div>
+      <div class="env-btns" id="weatherBtns">
+        <button class="env-opt active" data-weather="sunny" title="Sunny">Clear</button>
+        <button class="env-opt" data-weather="cloudy" title="Cloudy">Cloud</button>
+        <button class="env-opt" data-weather="foggy" title="Foggy">Fog</button>
+        <button class="env-opt" data-weather="rainy" title="Rainy">Rain</button>
+      </div>
+    </div>
+    <div class="env-row">
+      <div class="env-lbl">Shadows</div>
+      <label class="env-toggle">
+        <input type="checkbox" id="shadowToggle" checked />
+        <span class="env-toggle-track"></span>
+      </label>
+    </div>
+    <div class="env-row">
+      <div class="env-lbl">Glow Intensity</div>
+      <input type="range" class="env-slider" id="glowSlider" min="0" max="1" value="0.4" step="0.05" />
+    </div>
   </div>
 </div>
 

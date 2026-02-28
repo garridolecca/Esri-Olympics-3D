@@ -14,6 +14,9 @@ const HOME_CAMERA = {
   heading: 10
 };
 
+// Olympics Opening Ceremony: July 14, 2028 — default scene time 10:00 AM Pacific
+const OLYMPICS_DATE = new Date("2028-07-14T10:00:00-07:00");
+
 function make3DSymbol(cat, selected = false) {
   const c = CAT_COLORS[cat] || CAT_COLORS.outdoor;
   const sz = selected ? 16 : 11;
@@ -21,6 +24,23 @@ function make3DSymbol(cat, selected = false) {
   return {
     type: "point-3d",
     symbolLayers: [
+      // 5.0 Feature: Emissive glow sphere at ground level
+      // Creates a glowing light pool beneath each venue marker
+      {
+        type: "object",
+        resource: { primitive: "sphere" },
+        material: {
+          color: [...c.rgb, 180],
+          emissive: {
+            source: "color",
+            strength: selected ? 2.8 : 1.2
+          }
+        },
+        width: selected ? 55 : 30,
+        height: selected ? 22 : 12,
+        depth: selected ? 55 : 30
+      },
+      // Floating icon marker
       {
         type: "icon",
         resource: { primitive: "circle" },
@@ -130,10 +150,16 @@ export async function initMap(containerId, onVenueClick) {
     qualityProfile: "high",
     environment: {
       atmosphere: { quality: "high" },
+      // 5.0 Feature: Sun-based lighting with realistic building shadows + global glow
       lighting: {
-        type: "virtual"
+        type: "sun",
+        date: OLYMPICS_DATE,
+        directShadowsEnabled: true,
+        glow: { intensity: 0.4 }
       },
-      starsEnabled: false
+      // 5.0 Feature: Weather effects — sunny LA default
+      weather: { type: "sunny", cloudCover: 0.15 },
+      starsEnabled: true
     },
     popup: { autoOpenEnabled: false },
     // No default Esri widgets — using custom controls
@@ -161,10 +187,12 @@ export async function initMap(containerId, onVenueClick) {
   const controls = createCustomControls(view);
   view.ui.add(controls, "top-left");
 
-  // Click handler
+  // Click handler — 5.0 fix: Graphic.layer removed, use hit result's layer property
   view.on("click", async (e) => {
     const hit = await view.hitTest(e);
-    const match = hit.results.find(r => r.graphic && r.graphic.layer === venueLayer);
+    const match = hit.results.find(r =>
+      r.graphic && (r.layer === venueLayer || r.graphic.attributes?.id != null)
+    );
     if (match && onVenueClick) {
       onVenueClick(match.graphic.attributes.id);
     }
@@ -174,7 +202,9 @@ export async function initMap(containerId, onVenueClick) {
   const tip = document.getElementById("tip");
   view.on("pointer-move", async (e) => {
     const hit = await view.hitTest(e);
-    const match = hit.results.find(r => r.graphic && r.graphic.layer === venueLayer);
+    const match = hit.results.find(r =>
+      r.graphic && (r.layer === venueLayer || r.graphic.attributes?.id != null)
+    );
     if (match) {
       const v = VENUES.find(v => v.id === match.graphic.attributes.id);
       view.container.style.cursor = "pointer";

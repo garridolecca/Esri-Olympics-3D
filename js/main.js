@@ -3,6 +3,7 @@ import { VENUES } from "./data.js";
 import { initMap, selectGraphic, deselectGraphic } from "./map.js";
 import { initPanel, setActiveVenue } from "./panel.js";
 import { initSidebar, showSidebar, closeSidebar, isSidebarOpen } from "./sidebar.js";
+import { initEnvironment } from "./environment.js";
 
 let currentVenueId = null;
 let mapView = null;
@@ -50,6 +51,9 @@ function handleSidebarClose() {
 
   initPanel(handleVenueSelect);
   initSidebar(handleSidebarClose);
+
+  // 5.0 Feature: Environment controls (daylight, weather, shadows, glow)
+  initEnvironment(view);
 
   // Mobile menu toggle
   const menuBtn = document.getElementById("menuToggle");
