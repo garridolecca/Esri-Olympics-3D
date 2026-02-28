@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LA 2028 Olympics - 3D Venue Explorer</title>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "@arcgis/core/": "https://js.arcgis.com/4.32/@arcgis/core/"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/dark/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- ====== HEADER ====== -->
+<header id="header">
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle venue list">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
+  <div class="brand">
+    <div class="rings">
+      <div class="ring r-blue"></div>
+      <div class="ring r-gold"></div>
+      <div class="ring r-black"></div>
+      <div class="ring r-green"></div>
+      <div class="ring r-red"></div>
+    </div>
+    <div>
+      <div class="brand-title">LA 2028 Olympic Venues</div>
+      <div class="brand-sub">3D Venue Explorer</div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <div class="venue-count" id="venueCount">20 Venues</div>
+  </div>
+</header>
+
+<!-- ====== LEFT PANEL ====== -->
+<div id="leftPanel">
+  <div class="panel-hd">
+    <h2>Olympic Venues</h2>
+    <input type="search" class="search-input" id="venueSearch"
+           placeholder="Search by name, sport or city..." />
+  </div>
+  <div id="venueList"></div>
+</div>
+<div class="panel-overlay" id="panelOverlay"></div>
+
+<!-- ====== MAP ====== -->
+<div id="viewDiv"></div>
+
+<!-- ====== LEGEND ====== -->
+<div id="legend">
+  <div class="leg-title">Venue Types</div>
+  <div class="leg-row"><div class="leg-dot indoor"></div> Indoor Arena</div>
+  <div class="leg-row"><div class="leg-dot outdoor"></div> Outdoor / Stadium</div>
+  <div class="leg-row"><div class="leg-dot village"></div> Athletes Village</div>
+</div>
+
+<!-- ====== RIGHT SIDEBAR ====== -->
+<div id="sidebar">
+  <div class="sb-head">
+    <div class="sb-badge" id="sbBadge">Venue</div>
+    <div class="sb-name" id="sbName">&mdash;</div>
+    <div class="sb-loc" id="sbLoc">&mdash;</div>
+    <button class="sb-close" id="sbClose" aria-label="Close sidebar">&#x2715;</button>
+  </div>
+
+  <div class="sb-sec">
+    <div class="sb-sec-title">About this Venue</div>
+    <div class="sb-desc" id="sbDesc">&mdash;</div>
+  </div>
+
+  <div class="sb-sec">
+    <div class="sb-sec-title">Sports &amp; Events</div>
+    <div class="chips" id="sbSports"></div>
+  </div>
+
+  <div class="sb-sec">
+    <div class="sb-sec-title">Venue Details</div>
+    <div class="igrid" id="sbInfo"></div>
+  </div>
+</div>
+
+<!-- ====== TOOLTIP ====== -->
+<div id="tip"></div>
+
+<!-- ====== LOADING SCREEN ====== -->
+<div id="loadingScreen">
+  <div class="loader-content">
+    <div class="loader-rings">
+      <div class="ring r-blue"></div>
+      <div class="ring r-gold"></div>
+      <div class="ring r-black"></div>
+      <div class="ring r-green"></div>
+      <div class="ring r-red"></div>
+    </div>
+    <div class="loader-text">Loading 3D Scene...</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
