@@ -25,7 +25,6 @@ function make3DSymbol(cat, selected = false) {
     type: "point-3d",
     symbolLayers: [
       // 5.0 Feature: Emissive glow sphere at ground level
-      // Creates a glowing light pool beneath each venue marker
       {
         type: "object",
         resource: { primitive: "sphere" },
@@ -68,16 +67,17 @@ function make3DSymbol(cat, selected = false) {
   };
 }
 
-// Build custom map controls as plain HTML buttons with inline SVG icons
-function createCustomControls(view) {
-  const container = document.createElement("div");
-  container.className = "custom-map-controls";
+// Calcite Design System: use calcite-action-bar for map controls
+function createMapControls(view) {
+  const bar = document.createElement("calcite-action-bar");
+  bar.layout = "vertical";
+  bar.expandDisabled = true;
+  bar.scale = "s";
 
-  const buttons = [
+  const actions = [
     {
-      id: "btn-zoom-in",
-      title: "Zoom in",
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+      icon: "plus",
+      text: "Zoom in",
       action: () => {
         const cam = view.camera.clone();
         cam.position.z *= 0.6;
@@ -85,9 +85,8 @@ function createCustomControls(view) {
       }
     },
     {
-      id: "btn-zoom-out",
-      title: "Zoom out",
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+      icon: "minus",
+      text: "Zoom out",
       action: () => {
         const cam = view.camera.clone();
         cam.position.z *= 1.6;
@@ -95,17 +94,15 @@ function createCustomControls(view) {
       }
     },
     {
-      id: "btn-home",
-      title: "Reset view",
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>`,
+      icon: "home",
+      text: "Reset view",
       action: () => {
         view.goTo({ camera: HOME_CAMERA }, { duration: 800, easing: "ease-in-out" });
       }
     },
     {
-      id: "btn-tilt-up",
-      title: "Tilt up (bird's eye)",
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>`,
+      icon: "chevron-up",
+      text: "Tilt up (bird's eye)",
       action: () => {
         const cam = view.camera.clone();
         cam.tilt = Math.max(0, cam.tilt - 15);
@@ -113,9 +110,8 @@ function createCustomControls(view) {
       }
     },
     {
-      id: "btn-tilt-down",
-      title: "Tilt down (street level)",
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`,
+      icon: "chevron-down",
+      text: "Tilt down (street level)",
       action: () => {
         const cam = view.camera.clone();
         cam.tilt = Math.min(85, cam.tilt + 15);
@@ -124,17 +120,16 @@ function createCustomControls(view) {
     }
   ];
 
-  buttons.forEach(b => {
-    const btn = document.createElement("button");
-    btn.className = "map-ctrl-btn";
-    btn.id = b.id;
-    btn.title = b.title;
-    btn.innerHTML = b.icon;
-    btn.addEventListener("click", b.action);
-    container.appendChild(btn);
+  actions.forEach(a => {
+    const action = document.createElement("calcite-action");
+    action.icon = a.icon;
+    action.text = a.text;
+    action.scale = "s";
+    action.addEventListener("click", a.action);
+    bar.appendChild(action);
   });
 
-  return container;
+  return bar;
 }
 
 export async function initMap(containerId, onVenueClick) {
@@ -162,7 +157,6 @@ export async function initMap(containerId, onVenueClick) {
       starsEnabled: true
     },
     popup: { autoOpenEnabled: false },
-    // No default Esri widgets — using custom controls
     ui: { components: [] }
   });
 
@@ -183,8 +177,8 @@ export async function initMap(containerId, onVenueClick) {
 
   await view.when();
 
-  // Add custom HTML controls
-  const controls = createCustomControls(view);
+  // Calcite action-bar for map controls
+  const controls = createMapControls(view);
   view.ui.add(controls, "top-left");
 
   // Click handler — 5.0 fix: Graphic.layer removed, use hit result's layer property

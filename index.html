@@ -13,58 +13,83 @@
   }
   </script>
 
+  <!-- Calcite Design System 5.0 — recommended layout foundation -->
+  <script type="module" src="https://js.arcgis.com/calcite-components/5.0"></script>
+
   <link rel="stylesheet" href="https://js.arcgis.com/5.0/@arcgis/core/assets/esri/themes/dark/main.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body>
+<body class="calcite-mode-dark">
 
-<!-- ====== HEADER ====== -->
-<header id="header">
-  <button class="menu-toggle" id="menuToggle" aria-label="Toggle venue list">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-      <line x1="3" y1="6" x2="21" y2="6"/>
-      <line x1="3" y1="12" x2="21" y2="12"/>
-      <line x1="3" y1="18" x2="21" y2="18"/>
-    </svg>
-  </button>
+<calcite-shell>
 
-  <div class="brand">
-    <div class="rings">
-      <div class="ring r-blue"></div>
-      <div class="ring r-gold"></div>
-      <div class="ring r-black"></div>
-      <div class="ring r-green"></div>
-      <div class="ring r-red"></div>
+  <!-- ====== HEADER (Calcite Navigation) ====== -->
+  <calcite-navigation slot="header">
+    <calcite-action slot="navigation-action" id="menuToggle"
+      icon="hamburger" text="Toggle venue list"></calcite-action>
+    <div slot="content-start" class="brand">
+      <div class="rings">
+        <div class="ring r-blue"></div>
+        <div class="ring r-gold"></div>
+        <div class="ring r-black"></div>
+        <div class="ring r-green"></div>
+        <div class="ring r-red"></div>
+      </div>
+      <div>
+        <div class="brand-title">LA 2028 Olympic Venues</div>
+        <div class="brand-sub">3D Venue Explorer</div>
+      </div>
     </div>
-    <div>
-      <div class="brand-title">LA 2028 Olympic Venues</div>
-      <div class="brand-sub">3D Venue Explorer</div>
+    <div slot="content-end">
+      <calcite-chip scale="s" kind="neutral" appearance="outline-fill"
+        id="venueCount">20 Venues</calcite-chip>
     </div>
-  </div>
+  </calcite-navigation>
 
-  <div class="header-right">
-    <div class="venue-count" id="venueCount">20 Venues</div>
-  </div>
-</header>
+  <!-- ====== LEFT PANEL (Calcite Shell Panel) ====== -->
+  <calcite-shell-panel slot="panel-start" id="leftPanel" width-scale="m">
+    <calcite-panel heading="Olympic Venues" heading-level="2">
+      <div class="panel-search">
+        <calcite-input-text id="venueSearch"
+          placeholder="Search by name, sport or city..."
+          icon="search" clearable scale="m"></calcite-input-text>
+      </div>
+      <div id="venueList"></div>
+    </calcite-panel>
+  </calcite-shell-panel>
 
-<!-- ====== LEFT PANEL ====== -->
-<div id="leftPanel">
-  <div class="panel-hd">
-    <h2>Olympic Venues</h2>
-    <input type="search" class="search-input" id="venueSearch"
-           placeholder="Search by name, sport or city..." />
-  </div>
-  <div id="venueList"></div>
-</div>
-<div class="panel-overlay" id="panelOverlay"></div>
+  <!-- ====== MAP (Main Content) ====== -->
+  <div id="viewDiv"></div>
 
-<!-- ====== MAP ====== -->
-<div id="viewDiv"></div>
+  <!-- ====== RIGHT SIDEBAR (Calcite Shell Panel) ====== -->
+  <calcite-shell-panel slot="panel-end" id="sidebarPanel" width-scale="m" collapsed>
+    <calcite-panel id="sidebar" closable heading="&mdash;" description="&mdash;" heading-level="2">
+      <calcite-chip slot="header-actions-start" id="sbBadge" scale="s"
+        kind="brand" appearance="outline-fill">Venue</calcite-chip>
 
-<!-- ====== LEGEND ====== -->
+      <calcite-block heading="About this Venue" open collapsible>
+        <calcite-icon icon="information" slot="icon" scale="s"></calcite-icon>
+        <div class="sb-desc" id="sbDesc">&mdash;</div>
+      </calcite-block>
+
+      <calcite-block heading="Sports &amp; Events" open collapsible>
+        <calcite-icon icon="pin" slot="icon" scale="s"></calcite-icon>
+        <div class="chips" id="sbSports"></div>
+      </calcite-block>
+
+      <calcite-block heading="Venue Details" open collapsible>
+        <calcite-icon icon="list" slot="icon" scale="s"></calcite-icon>
+        <div class="igrid" id="sbInfo"></div>
+      </calcite-block>
+    </calcite-panel>
+  </calcite-shell-panel>
+
+</calcite-shell>
+
+<!-- ====== LEGEND (floating overlay) ====== -->
 <div id="legend">
   <div class="leg-title">Venue Types</div>
   <div class="leg-row"><div class="leg-dot indoor"></div> Indoor Arena</div>
@@ -72,70 +97,40 @@
   <div class="leg-row"><div class="leg-dot village"></div> Athletes Village</div>
 </div>
 
-<!-- ====== RIGHT SIDEBAR ====== -->
-<div id="sidebar">
-  <div class="sb-head">
-    <div class="sb-badge" id="sbBadge">Venue</div>
-    <div class="sb-name" id="sbName">&mdash;</div>
-    <div class="sb-loc" id="sbLoc">&mdash;</div>
-    <button class="sb-close" id="sbClose" aria-label="Close sidebar">&#x2715;</button>
-  </div>
-
-  <div class="sb-sec">
-    <div class="sb-sec-title">About this Venue</div>
-    <div class="sb-desc" id="sbDesc">&mdash;</div>
-  </div>
-
-  <div class="sb-sec">
-    <div class="sb-sec-title">Sports &amp; Events</div>
-    <div class="chips" id="sbSports"></div>
-  </div>
-
-  <div class="sb-sec">
-    <div class="sb-sec-title">Venue Details</div>
-    <div class="igrid" id="sbInfo"></div>
-  </div>
-</div>
-
-<!-- ====== ENVIRONMENT CONTROLS (5.0 Features) ====== -->
+<!-- ====== ENVIRONMENT CONTROLS (floating overlay with Calcite form components) ====== -->
 <div id="envPanel">
-  <div class="env-hd" id="envToggleBtn">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-      <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-      <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-    </svg>
-    <span>Environment</span>
-    <svg class="env-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-  </div>
-  <div class="env-body" id="envBody">
-    <div class="env-row">
-      <div class="env-lbl">Time of Day</div>
-      <input type="range" class="env-slider" id="daylightSlider" min="0" max="23.5" value="10" step="0.5" />
-      <div class="env-val" id="daylightLabel">10:00 AM</div>
-    </div>
-    <div class="env-row">
-      <div class="env-lbl">Weather</div>
-      <div class="env-btns" id="weatherBtns">
-        <button class="env-opt active" data-weather="sunny" title="Sunny">Clear</button>
-        <button class="env-opt" data-weather="cloudy" title="Cloudy">Cloud</button>
-        <button class="env-opt" data-weather="foggy" title="Foggy">Fog</button>
-        <button class="env-opt" data-weather="rainy" title="Rainy">Rain</button>
-      </div>
-    </div>
-    <div class="env-row">
-      <div class="env-lbl">Shadows</div>
-      <label class="env-toggle">
-        <input type="checkbox" id="shadowToggle" checked />
-        <span class="env-toggle-track"></span>
-      </label>
-    </div>
-    <div class="env-row">
-      <div class="env-lbl">Glow Intensity</div>
-      <input type="range" class="env-slider" id="glowSlider" min="0" max="1" value="0.4" step="0.05" />
-    </div>
-  </div>
+  <calcite-block heading="Environment" open collapsible>
+    <calcite-icon icon="effects" slot="icon" scale="s"></calcite-icon>
+
+    <calcite-label scale="s">
+      Time of Day
+      <calcite-slider id="daylightSlider" min="0" max="23.5" value="10"
+        step="0.5" snap scale="s"></calcite-slider>
+    </calcite-label>
+    <div class="env-val" id="daylightLabel">10:00 AM</div>
+
+    <calcite-label scale="s">
+      Weather
+      <calcite-segmented-control id="weatherBtns" scale="s" width="full"
+        appearance="outline">
+        <calcite-segmented-control-item value="sunny" checked>Clear</calcite-segmented-control-item>
+        <calcite-segmented-control-item value="cloudy">Cloud</calcite-segmented-control-item>
+        <calcite-segmented-control-item value="foggy">Fog</calcite-segmented-control-item>
+        <calcite-segmented-control-item value="rainy">Rain</calcite-segmented-control-item>
+      </calcite-segmented-control>
+    </calcite-label>
+
+    <calcite-label scale="s" layout="inline-space-between">
+      Shadows
+      <calcite-switch id="shadowToggle" checked scale="s"></calcite-switch>
+    </calcite-label>
+
+    <calcite-label scale="s">
+      Glow Intensity
+      <calcite-slider id="glowSlider" min="0" max="1" value="0.4"
+        step="0.05" scale="s"></calcite-slider>
+    </calcite-label>
+  </calcite-block>
 </div>
 
 <!-- ====== TOOLTIP ====== -->

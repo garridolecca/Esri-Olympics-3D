@@ -6,8 +6,9 @@ let _activeId = null;
 export function initPanel(onSelect) {
   _onSelect = onSelect;
   renderList("");
-  document.getElementById("venueSearch").addEventListener("input", function () {
-    renderList(this.value);
+  // Calcite input-text: listen for calciteInputTextInput event
+  document.getElementById("venueSearch").addEventListener("calciteInputTextInput", function (e) {
+    renderList(e.target.value);
   });
 }
 
@@ -50,9 +51,11 @@ function renderList(q) {
   el.querySelectorAll(".vi").forEach(item => {
     item.addEventListener("click", () => {
       if (_onSelect) _onSelect(parseInt(item.dataset.id, 10));
-      // Close mobile panel on selection
-      document.getElementById("leftPanel").classList.remove("open");
-      document.getElementById("panelOverlay").classList.remove("active");
+      // Close mobile panel on selection (Calcite shell-panel)
+      const leftPanel = document.getElementById("leftPanel");
+      if (leftPanel.displayMode === "float" || leftPanel.displayMode === "overlay") {
+        leftPanel.collapsed = true;
+      }
     });
   });
 }

@@ -1,41 +1,33 @@
 // Environment controls module — leverages ArcGIS JS SDK 5.0 features:
 // Sun lighting with daylight control, weather effects, shadows, and glow
+// Uses Calcite Design System form components (slider, switch, segmented-control)
 
 let _view = null;
 
 export function initEnvironment(view) {
   _view = view;
 
-  // Toggle panel open/collapsed
-  document.getElementById("envToggleBtn").addEventListener("click", () => {
-    document.getElementById("envPanel").classList.toggle("collapsed");
-  });
-
-  // Daylight slider — controls sun position via date
+  // Calcite slider: daylight time-of-day control
   const daylightSlider = document.getElementById("daylightSlider");
   const daylightLabel = document.getElementById("daylightLabel");
-  daylightSlider.addEventListener("input", () => {
+  daylightSlider.addEventListener("calciteSliderInput", () => {
     const hour = parseFloat(daylightSlider.value);
     updateDaylight(hour);
     daylightLabel.textContent = formatHour(hour);
   });
 
-  // Weather buttons
-  document.querySelectorAll("[data-weather]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll("[data-weather]").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      updateWeather(btn.dataset.weather);
-    });
+  // Calcite segmented-control: weather toggle
+  document.getElementById("weatherBtns").addEventListener("calciteSegmentedControlChange", (e) => {
+    updateWeather(e.target.value);
   });
 
-  // Shadow toggle
-  document.getElementById("shadowToggle").addEventListener("change", (e) => {
+  // Calcite switch: shadow toggle
+  document.getElementById("shadowToggle").addEventListener("calciteSwitchChange", (e) => {
     updateShadows(e.target.checked);
   });
 
-  // Glow intensity slider
-  document.getElementById("glowSlider").addEventListener("input", (e) => {
+  // Calcite slider: glow intensity
+  document.getElementById("glowSlider").addEventListener("calciteSliderInput", (e) => {
     updateGlow(parseFloat(e.target.value));
   });
 }

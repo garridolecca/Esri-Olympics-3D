@@ -40,6 +40,23 @@ function handleSidebarClose() {
   }
 }
 
+// Responsive layout: adapt Calcite shell-panel display modes for mobile vs desktop
+function applyResponsiveLayout() {
+  const isMobile = window.innerWidth <= 768;
+  const leftPanel = document.getElementById("leftPanel");
+  const menuToggle = document.getElementById("menuToggle");
+
+  if (isMobile) {
+    leftPanel.displayMode = "float";
+    leftPanel.collapsed = true;
+    menuToggle.hidden = false;
+  } else {
+    leftPanel.displayMode = "dock";
+    leftPanel.collapsed = false;
+    menuToggle.hidden = true;
+  }
+}
+
 (async () => {
   const { view } = await initMap("viewDiv", handleVenueSelect);
   mapView = view;
@@ -55,17 +72,13 @@ function handleSidebarClose() {
   // 5.0 Feature: Environment controls (daylight, weather, shadows, glow)
   initEnvironment(view);
 
-  // Mobile menu toggle
-  const menuBtn = document.getElementById("menuToggle");
-  const leftPanel = document.getElementById("leftPanel");
-  const panelOverlay = document.getElementById("panelOverlay");
+  // Responsive layout management
+  applyResponsiveLayout();
+  window.addEventListener("resize", applyResponsiveLayout);
 
-  menuBtn.addEventListener("click", () => {
-    leftPanel.classList.toggle("open");
-    panelOverlay.classList.toggle("active");
-  });
-  panelOverlay.addEventListener("click", () => {
-    leftPanel.classList.remove("open");
-    panelOverlay.classList.remove("active");
+  // Mobile menu toggle — Calcite action toggles shell-panel collapsed state
+  document.getElementById("menuToggle").addEventListener("click", () => {
+    const leftPanel = document.getElementById("leftPanel");
+    leftPanel.collapsed = !leftPanel.collapsed;
   });
 })();
