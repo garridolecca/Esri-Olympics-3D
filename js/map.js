@@ -224,3 +224,11 @@ export function deselectGraphic(id) {
   const v = VENUES.find(v => v.id === id);
   if (v && byId[id]) byId[id].symbol = make3DSymbol(v.cat, false);
 }
+
+export function filterByCategory(activeCategories) {
+  VENUES.forEach(v => {
+    if (byId[v.id]) {
+      byId[v.id].visible = activeCategories.has(v.cat);
+    }
+  });
+}

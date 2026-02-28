@@ -140,38 +140,44 @@ html, body, calcite-shell {
   height: 100%;
 }
 
-/* ========== LEGEND (floating overlay) ========== */
-#legend {
-  position: fixed;
-  bottom: 20px;
-  left: 16px;
-  background: rgba(16,19,26,0.92);
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
+/* ========== FILTER BLOCK (left panel) ========== */
+.filter-block {
+  position: sticky;
+  top: 52px;
+  z-index: 1;
   padding: 10px 14px;
-  z-index: 400;
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--calcite-color-foreground-1, #1e2127);
 }
-.leg-title {
+.filter-title {
   font-size: 0.62rem;
   font-weight: 700;
   color: var(--oly-gold);
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  margin-bottom: 7px;
+  margin-bottom: 8px;
 }
-.leg-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-.leg-row:last-child { margin-bottom: 0; }
-.leg-dot {
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+}
+.filter-row.disabled .filter-dot { opacity: 0.25; }
+.filter-row.disabled .filter-label { opacity: 0.35; }
+.filter-dot {
   width: 10px; height: 10px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
-.leg-dot.indoor  { background: var(--sym-indoor);  box-shadow: 0 0 6px var(--sym-indoor); }
-.leg-dot.outdoor { background: var(--sym-outdoor); box-shadow: 0 0 6px var(--sym-outdoor); }
-.leg-dot.village { background: var(--sym-village); box-shadow: 0 0 6px var(--sym-village); }
+.filter-dot.indoor  { background: var(--sym-indoor);  box-shadow: 0 0 6px var(--sym-indoor); }
+.filter-dot.outdoor { background: var(--sym-outdoor); box-shadow: 0 0 6px var(--sym-outdoor); }
+.filter-dot.village { background: var(--sym-village); box-shadow: 0 0 6px var(--sym-village); }
+.filter-label {
+  flex: 1;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
 
 /* ========== SIDEBAR CONTENT ========== */
 .sb-desc {
@@ -284,17 +290,6 @@ html, body, calcite-shell {
   100% { transform: translateX(400%); }
 }
 
-/* ========== ENVIRONMENT PANEL (floating overlay) ========== */
-#envPanel {
-  position: fixed;
-  bottom: 20px;
-  right: 16px;
-  width: 230px;
-  z-index: 400;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
 .env-val {
   font-size: 0.72rem;
   color: var(--text-secondary);
@@ -325,19 +320,6 @@ html, body, calcite-shell {
   .vi-loc { font-size: 0.82rem; margin-bottom: 5px; }
   .vi-tag { font-size: 0.72rem; padding: 2px 9px; }
 
-  #legend {
-    left: 12px;
-    bottom: 12px;
-    font-size: 0.72rem;
-    padding: 8px 12px;
-  }
-
-  #envPanel {
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    width: auto;
-  }
 }
 
 /* ========== RESPONSIVE — SMALL PHONES ========== */

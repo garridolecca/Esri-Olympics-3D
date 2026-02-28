@@ -10,11 +10,7 @@ export function initSidebar(onClose) {
 }
 
 export function showSidebar(venue) {
-  const sidebarPanel = document.getElementById("sidebarPanel");
   const sidebar = document.getElementById("sidebar");
-
-  // Reset closed state (in case panel was closed by its close button)
-  sidebar.closed = false;
 
   // Calcite panel heading/description replace custom header elements
   sidebar.heading = venue.name;
@@ -34,14 +30,14 @@ export function showSidebar(venue) {
     `<div class="icard"><div class="icard-lbl">Year Built</div><div class="icard-val">${venue.built !== null ? venue.built : "TBD"}</div></div>` +
     `<div class="icard full"><div class="icard-lbl">Address</div><div class="icard-val">${venue.addr}</div></div>`;
 
-  // Calcite shell-panel: uncollapse to show
-  sidebarPanel.collapsed = false;
+  // Show venue details panel (shell-panel stays open for environment controls)
+  sidebar.closed = false;
 }
 
 export function closeSidebar() {
-  document.getElementById("sidebarPanel").collapsed = true;
+  document.getElementById("sidebar").closed = true;
 }
 
 export function isSidebarOpen() {
-  return !document.getElementById("sidebarPanel").collapsed;
+  return !document.getElementById("sidebar").closed;
 }

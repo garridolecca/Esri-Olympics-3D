@@ -57,6 +57,24 @@
           placeholder="Search by name, sport or city..."
           icon="search" clearable scale="m"></calcite-input-text>
       </div>
+      <div class="filter-block">
+        <div class="filter-title">Venue Types</div>
+        <div class="filter-row" data-cat="indoor">
+          <span class="filter-dot indoor"></span>
+          <span class="filter-label">Indoor Arena</span>
+          <calcite-switch id="filterIndoor" checked scale="s"></calcite-switch>
+        </div>
+        <div class="filter-row" data-cat="outdoor">
+          <span class="filter-dot outdoor"></span>
+          <span class="filter-label">Outdoor / Stadium</span>
+          <calcite-switch id="filterOutdoor" checked scale="s"></calcite-switch>
+        </div>
+        <div class="filter-row" data-cat="village">
+          <span class="filter-dot village"></span>
+          <span class="filter-label">Athletes Village</span>
+          <calcite-switch id="filterVillage" checked scale="s"></calcite-switch>
+        </div>
+      </div>
       <div id="venueList"></div>
     </calcite-panel>
   </calcite-shell-panel>
@@ -64,9 +82,10 @@
   <!-- ====== MAP (Main Content) ====== -->
   <div id="viewDiv"></div>
 
-  <!-- ====== RIGHT SIDEBAR (Calcite Shell Panel) ====== -->
-  <calcite-shell-panel slot="panel-end" id="sidebarPanel" width-scale="m" collapsed>
-    <calcite-panel id="sidebar" closable heading="&mdash;" description="&mdash;" heading-level="2">
+  <!-- ====== RIGHT PANEL (Calcite Shell Panel — always visible) ====== -->
+  <calcite-shell-panel slot="panel-end" id="sidebarPanel" width-scale="s">
+    <!-- Venue details — hidden when no venue selected -->
+    <calcite-panel id="sidebar" closable closed heading="&mdash;" description="&mdash;" heading-level="2">
       <calcite-chip slot="header-actions-start" id="sbBadge" scale="s"
         kind="brand" appearance="outline-fill">Venue</calcite-chip>
 
@@ -85,53 +104,45 @@
         <div class="igrid" id="sbInfo"></div>
       </calcite-block>
     </calcite-panel>
+
+    <!-- Environment controls — always visible -->
+    <calcite-panel heading="Environment" heading-level="2">
+      <calcite-icon icon="effects" slot="header-actions-start" scale="s"></calcite-icon>
+
+      <calcite-block heading="Time of Day" open collapsible>
+        <calcite-icon icon="clock" slot="icon" scale="s"></calcite-icon>
+        <calcite-slider id="daylightSlider" min="0" max="23.5" value="10"
+          step="0.5" snap scale="s"></calcite-slider>
+        <div class="env-val" id="daylightLabel">10:00 AM</div>
+      </calcite-block>
+
+      <calcite-block heading="Weather" open collapsible>
+        <calcite-icon icon="partly-cloudy" slot="icon" scale="s"></calcite-icon>
+        <calcite-segmented-control id="weatherBtns" scale="s" width="full"
+          appearance="outline">
+          <calcite-segmented-control-item value="sunny" checked>Clear</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="cloudy">Cloud</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="foggy">Fog</calcite-segmented-control-item>
+          <calcite-segmented-control-item value="rainy">Rain</calcite-segmented-control-item>
+        </calcite-segmented-control>
+      </calcite-block>
+
+      <calcite-block heading="Effects" open collapsible>
+        <calcite-icon icon="brightness" slot="icon" scale="s"></calcite-icon>
+        <calcite-label scale="s" layout="inline-space-between">
+          Shadows
+          <calcite-switch id="shadowToggle" checked scale="s"></calcite-switch>
+        </calcite-label>
+        <calcite-label scale="s" style="margin-top: 8px;">
+          Glow Intensity
+          <calcite-slider id="glowSlider" min="0" max="1" value="0.4"
+            step="0.05" scale="s"></calcite-slider>
+        </calcite-label>
+      </calcite-block>
+    </calcite-panel>
   </calcite-shell-panel>
 
 </calcite-shell>
-
-<!-- ====== LEGEND (floating overlay) ====== -->
-<div id="legend">
-  <div class="leg-title">Venue Types</div>
-  <div class="leg-row"><div class="leg-dot indoor"></div> Indoor Arena</div>
-  <div class="leg-row"><div class="leg-dot outdoor"></div> Outdoor / Stadium</div>
-  <div class="leg-row"><div class="leg-dot village"></div> Athletes Village</div>
-</div>
-
-<!-- ====== ENVIRONMENT CONTROLS (floating overlay with Calcite form components) ====== -->
-<div id="envPanel">
-  <calcite-block heading="Environment" open collapsible>
-    <calcite-icon icon="effects" slot="icon" scale="s"></calcite-icon>
-
-    <calcite-label scale="s">
-      Time of Day
-      <calcite-slider id="daylightSlider" min="0" max="23.5" value="10"
-        step="0.5" snap scale="s"></calcite-slider>
-    </calcite-label>
-    <div class="env-val" id="daylightLabel">10:00 AM</div>
-
-    <calcite-label scale="s">
-      Weather
-      <calcite-segmented-control id="weatherBtns" scale="s" width="full"
-        appearance="outline">
-        <calcite-segmented-control-item value="sunny" checked>Clear</calcite-segmented-control-item>
-        <calcite-segmented-control-item value="cloudy">Cloud</calcite-segmented-control-item>
-        <calcite-segmented-control-item value="foggy">Fog</calcite-segmented-control-item>
-        <calcite-segmented-control-item value="rainy">Rain</calcite-segmented-control-item>
-      </calcite-segmented-control>
-    </calcite-label>
-
-    <calcite-label scale="s" layout="inline-space-between">
-      Shadows
-      <calcite-switch id="shadowToggle" checked scale="s"></calcite-switch>
-    </calcite-label>
-
-    <calcite-label scale="s">
-      Glow Intensity
-      <calcite-slider id="glowSlider" min="0" max="1" value="0.4"
-        step="0.05" scale="s"></calcite-slider>
-    </calcite-label>
-  </calcite-block>
-</div>
 
 <!-- ====== TOOLTIP ====== -->
 <div id="tip"></div>

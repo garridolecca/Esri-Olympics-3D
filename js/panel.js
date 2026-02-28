@@ -2,6 +2,7 @@ import { VENUES, CAT_COLORS } from "./data.js";
 
 let _onSelect = null;
 let _activeId = null;
+let _activeCategories = new Set(["indoor", "outdoor", "village"]);
 
 export function initPanel(onSelect) {
   _onSelect = onSelect;
@@ -10,6 +11,11 @@ export function initPanel(onSelect) {
   document.getElementById("venueSearch").addEventListener("calciteInputTextInput", function (e) {
     renderList(e.target.value);
   });
+}
+
+export function setCategoryFilter(activeCategories) {
+  _activeCategories = activeCategories;
+  renderList(document.getElementById("venueSearch").value || "");
 }
 
 export function setActiveVenue(id) {
@@ -27,11 +33,13 @@ function renderList(q) {
   q = (q || "").toLowerCase();
 
   const items = VENUES.filter(v =>
-    !q ||
-    v.name.toLowerCase().includes(q) ||
-    v.loc.toLowerCase().includes(q) ||
-    v.type.toLowerCase().includes(q) ||
-    v.sports.some(s => s.toLowerCase().includes(q))
+    _activeCategories.has(v.cat) && (
+      !q ||
+      v.name.toLowerCase().includes(q) ||
+      v.loc.toLowerCase().includes(q) ||
+      v.type.toLowerCase().includes(q) ||
+      v.sports.some(s => s.toLowerCase().includes(q))
+    )
   );
 
   const html = items.map(v => {
