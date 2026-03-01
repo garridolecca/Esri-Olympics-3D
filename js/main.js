@@ -92,19 +92,14 @@ function applyResponsiveLayout() {
   });
 
   // LA View button — zoom out to show all venues
-  await customElements.whenDefined("calcite-button");
-  const laViewBtn = document.getElementById("laViewBtn");
-  laViewBtn.addEventListener("click", () => {
+  document.getElementById("laViewBtn").addEventListener("click", () => {
     if (currentVenueId !== null) {
       deselectGraphic(currentVenueId);
       setActiveVenue(null);
       currentVenueId = null;
       closeSidebar();
     }
-    mapView.goTo(
-      { position: HOME_CAMERA.position, tilt: HOME_CAMERA.tilt, heading: HOME_CAMERA.heading },
-      { duration: 1200, easing: "ease-in-out" }
-    );
+    mapView.goTo({ camera: HOME_CAMERA }, { duration: 1200, easing: "ease-in-out" });
   });
 
   // Category filter switches — wire calcite-switch events to filter logic

@@ -223,6 +223,23 @@ html, body, calcite-shell {
   align-items: center;
   gap: 8px;
 }
+.la-view-btn {
+  background: transparent;
+  border: 1px solid rgba(244, 195, 0, 0.4);
+  color: var(--oly-gold);
+  font-family: var(--calcite-font-family);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+.la-view-btn:hover {
+  background: rgba(244, 195, 0, 0.12);
+  border-color: var(--oly-gold);
+}
 
 /* ========== TOOLTIP ========== */
 #tip {
