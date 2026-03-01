@@ -1,6 +1,6 @@
 import "./config.js";
 import { VENUES } from "./data.js";
-import { initMap, selectGraphic, deselectGraphic, filterByCategory, goToAllVenues } from "./map.js";
+import { initMap, selectGraphic, deselectGraphic, filterByCategory, HOME_CAMERA } from "./map.js";
 import { initPanel, setActiveVenue, setCategoryFilter } from "./panel.js";
 import { initSidebar, showSidebar, closeSidebar, isSidebarOpen } from "./sidebar.js";
 import { initEnvironment } from "./environment.js";
@@ -92,14 +92,19 @@ function applyResponsiveLayout() {
   });
 
   // LA View button — zoom out to show all venues
-  document.getElementById("laViewBtn").addEventListener("click", () => {
+  await customElements.whenDefined("calcite-button");
+  const laViewBtn = document.getElementById("laViewBtn");
+  laViewBtn.addEventListener("click", () => {
     if (currentVenueId !== null) {
       deselectGraphic(currentVenueId);
       setActiveVenue(null);
       currentVenueId = null;
       closeSidebar();
     }
-    goToAllVenues(mapView);
+    mapView.goTo(
+      { position: HOME_CAMERA.position, tilt: HOME_CAMERA.tilt, heading: HOME_CAMERA.heading },
+      { duration: 1200, easing: "ease-in-out" }
+    );
   });
 
   // Category filter switches — wire calcite-switch events to filter logic

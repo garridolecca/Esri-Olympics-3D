@@ -8,7 +8,7 @@ import { VENUES, CAT_COLORS } from "./data.js";
 
 const byId = {};
 
-const HOME_CAMERA = {
+export const HOME_CAMERA = {
   position: { longitude: -118.30, latitude: 33.50, z: 55000 },
   tilt: 35,
   heading: 10
@@ -223,13 +223,6 @@ export function selectGraphic(id) {
 export function deselectGraphic(id) {
   const v = VENUES.find(v => v.id === id);
   if (v && byId[id]) byId[id].symbol = make3DSymbol(v.cat, false);
-}
-
-export function goToAllVenues(view) {
-  view.goTo(
-    { camera: HOME_CAMERA },
-    { duration: 1200, easing: "ease-in-out" }
-  );
 }
 
 export function filterByCategory(activeCategories) {
