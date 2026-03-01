@@ -217,9 +217,23 @@ html, body, calcite-shell {
 .icard-val { font-size: 1.1rem; font-weight: 700; color: #fff; }
 .icard.full .icard-val { font-size: 0.85rem; font-weight: 500; }
 
-/* ========== LA VIEW BUTTON (map UI) ========== */
+/* ========== LA VIEW BUTTON (map UI top-right) ========== */
 #laViewBtn {
+  background: rgba(16, 19, 26, 0.9);
+  border: 1px solid rgba(244, 195, 0, 0.5);
+  color: var(--oly-gold);
+  font-family: var(--calcite-font-family);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 4px;
   cursor: pointer;
+  user-select: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+#laViewBtn:hover {
+  background: rgba(244, 195, 0, 0.15);
+  border-color: var(--oly-gold);
 }
 
 /* ========== TOOLTIP ========== */

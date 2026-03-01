@@ -1,6 +1,6 @@
 import "./config.js";
 import { VENUES } from "./data.js";
-import { initMap, selectGraphic, deselectGraphic, filterByCategory, HOME_CAMERA } from "./map.js";
+import { initMap, selectGraphic, deselectGraphic, filterByCategory } from "./map.js";
 import { initPanel, setActiveVenue, setCategoryFilter } from "./panel.js";
 import { initSidebar, showSidebar, closeSidebar, isSidebarOpen } from "./sidebar.js";
 import { initEnvironment } from "./environment.js";
@@ -69,6 +69,7 @@ function applyResponsiveLayout() {
 (async () => {
   const { view } = await initMap("viewDiv", handleVenueSelect);
   mapView = view;
+  const initialCamera = view.camera.clone();
 
   // Dismiss loading screen
   const loader = document.getElementById("loadingScreen");
@@ -91,14 +92,9 @@ function applyResponsiveLayout() {
     leftPanel.collapsed = !leftPanel.collapsed;
   });
 
-  // LA View button — added to map UI (top-right) so clicks work reliably
-  const laViewBtn = document.createElement("calcite-button");
+  // LA View button — native div + real Camera instance for guaranteed behavior
+  const laViewBtn = document.createElement("div");
   laViewBtn.id = "laViewBtn";
-  laViewBtn.appearance = "solid";
-  laViewBtn.kind = "inverse";
-  laViewBtn.scale = "s";
-  laViewBtn.iconStart = "urban-model";
-  laViewBtn.round = true;
   laViewBtn.textContent = "LA View";
   laViewBtn.addEventListener("click", () => {
     if (currentVenueId !== null) {
@@ -107,7 +103,7 @@ function applyResponsiveLayout() {
       currentVenueId = null;
       closeSidebar();
     }
-    mapView.goTo({ camera: HOME_CAMERA }, { duration: 1200, easing: "ease-in-out" });
+    mapView.goTo(initialCamera, { duration: 1200, easing: "ease-in-out" });
   });
   view.ui.add(laViewBtn, "top-right");
 
