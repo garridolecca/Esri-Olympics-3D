@@ -91,8 +91,16 @@ function applyResponsiveLayout() {
     leftPanel.collapsed = !leftPanel.collapsed;
   });
 
-  // LA View button — zoom out to show all venues
-  document.getElementById("laViewBtn").addEventListener("click", () => {
+  // LA View button — added to map UI (top-right) so clicks work reliably
+  const laViewBtn = document.createElement("calcite-button");
+  laViewBtn.id = "laViewBtn";
+  laViewBtn.appearance = "solid";
+  laViewBtn.kind = "inverse";
+  laViewBtn.scale = "s";
+  laViewBtn.iconStart = "urban-model";
+  laViewBtn.round = true;
+  laViewBtn.textContent = "LA View";
+  laViewBtn.addEventListener("click", () => {
     if (currentVenueId !== null) {
       deselectGraphic(currentVenueId);
       setActiveVenue(null);
@@ -101,6 +109,7 @@ function applyResponsiveLayout() {
     }
     mapView.goTo({ camera: HOME_CAMERA }, { duration: 1200, easing: "ease-in-out" });
   });
+  view.ui.add(laViewBtn, "top-right");
 
   // Category filter switches — wire calcite-switch events to filter logic
   const filterMap = {

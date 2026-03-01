@@ -217,28 +217,9 @@ html, body, calcite-shell {
 .icard-val { font-size: 1.1rem; font-weight: 700; color: #fff; }
 .icard.full .icard-val { font-size: 0.85rem; font-weight: 500; }
 
-/* ========== HEADER END (venue count + LA View button) ========== */
-.header-end {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.la-view-btn {
-  background: transparent;
-  border: 1px solid rgba(244, 195, 0, 0.4);
-  color: var(--oly-gold);
-  font-family: var(--calcite-font-family);
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 16px;
+/* ========== LA VIEW BUTTON (map UI) ========== */
+#laViewBtn {
   cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.15s, border-color 0.15s;
-}
-.la-view-btn:hover {
-  background: rgba(244, 195, 0, 0.12);
-  border-color: var(--oly-gold);
 }
 
 /* ========== TOOLTIP ========== */
