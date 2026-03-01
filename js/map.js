@@ -189,7 +189,12 @@ export async function initMap(containerId, onVenueClick, onLAView) {
   laAction.style.cssText = "border:1px solid rgba(244,195,0,0.5);border-radius:4px;";
   laAction.addEventListener("click", () => {
     if (onLAView) onLAView();
-    view.goTo(venueLayer.graphics.toArray(), { duration: 1200, easing: "ease-in-out" });
+    view.goTo(venueLayer.graphics.toArray(), { duration: 1200, easing: "ease-in-out" })
+      .then(() => {
+        const cam = view.camera.clone();
+        cam.position.z *= 0.7;
+        view.goTo(cam, { duration: 600, easing: "ease-in-out" });
+      });
   });
   view.ui.add(laAction, "top-right");
 
