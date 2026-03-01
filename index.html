@@ -43,9 +43,13 @@
         <div class="brand-sub">3D Venue Explorer</div>
       </div>
     </div>
-    <div slot="content-end">
+    <div slot="content-end" class="header-end">
       <calcite-chip scale="s" kind="neutral" appearance="outline-fill"
         id="venueCount">20 Venues</calcite-chip>
+      <calcite-button id="laViewBtn" appearance="outline-fill" kind="neutral"
+        icon-start="urban-model" scale="s" round>
+        LA View
+      </calcite-button>
     </div>
   </calcite-navigation>
 
@@ -80,13 +84,7 @@
   </calcite-shell-panel>
 
   <!-- ====== MAP (Main Content) ====== -->
-  <div id="viewDiv">
-    <!-- LA View button — zooms to show all venues -->
-    <calcite-button id="laViewBtn" appearance="solid" kind="neutral"
-      icon-start="urban-model" scale="s" round>
-      LA View — All Venues
-    </calcite-button>
-  </div>
+  <div id="viewDiv"></div>
 
   <!-- ====== RIGHT PANEL (Calcite Shell Panel — single scrollable panel) ====== -->
   <calcite-shell-panel slot="panel-end" id="sidebarPanel" width-scale="m">

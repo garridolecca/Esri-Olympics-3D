@@ -217,22 +217,11 @@ html, body, calcite-shell {
 .icard-val { font-size: 1.1rem; font-weight: 700; color: #fff; }
 .icard.full .icard-val { font-size: 0.85rem; font-weight: 500; }
 
-/* ========== LA VIEW BUTTON ========== */
-#laViewBtn {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  --calcite-color-foreground-1: rgba(16, 19, 26, 0.85);
-  --calcite-color-text-1: #fff;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(244, 195, 0, 0.2);
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-#laViewBtn:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(244, 195, 0, 0.4);
+/* ========== HEADER END (venue count + LA View button) ========== */
+.header-end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* ========== TOOLTIP ========== */
