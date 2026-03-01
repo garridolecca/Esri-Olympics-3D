@@ -9,8 +9,8 @@ import { VENUES, CAT_COLORS } from "./data.js";
 const byId = {};
 
 const HOME_CAMERA = {
-  position: { longitude: -118.35, latitude: 33.60, z: 50000 },
-  tilt: 50,
+  position: { longitude: -118.30, latitude: 33.50, z: 55000 },
+  tilt: 35,
   heading: 10
 };
 
