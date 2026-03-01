@@ -82,33 +82,35 @@
   <!-- ====== MAP (Main Content) ====== -->
   <div id="viewDiv"></div>
 
-  <!-- ====== RIGHT PANEL (Calcite Shell Panel — always visible) ====== -->
-  <calcite-shell-panel slot="panel-end" id="sidebarPanel" width-scale="s">
-    <!-- Venue details — hidden when no venue selected -->
-    <calcite-panel id="sidebar" closable closed heading="&mdash;" description="&mdash;" heading-level="2">
-      <calcite-chip slot="header-actions-start" id="sbBadge" scale="s"
-        kind="brand" appearance="outline-fill">Venue</calcite-chip>
+  <!-- ====== RIGHT PANEL (Calcite Shell Panel — single scrollable panel) ====== -->
+  <calcite-shell-panel slot="panel-end" id="sidebarPanel" width-scale="m">
+    <calcite-panel heading="Controls" heading-level="2">
 
-      <calcite-block heading="About this Venue" open collapsible>
-        <calcite-icon icon="information" slot="icon" scale="s"></calcite-icon>
-        <div class="sb-desc" id="sbDesc">&mdash;</div>
-      </calcite-block>
+      <!-- Venue details — shown/hidden via CSS when a venue is selected -->
+      <div id="venueDetailSection" class="venue-detail-hidden">
+        <calcite-block id="sidebar" heading="&mdash;" description="&mdash;" open collapsible>
+          <calcite-icon icon="map-pin" slot="icon" scale="s"></calcite-icon>
+          <calcite-chip id="sbBadge" scale="s"
+            kind="brand" appearance="outline-fill">Venue</calcite-chip>
+          <div class="sb-desc" id="sbDesc" style="margin-top: 8px;">&mdash;</div>
+        </calcite-block>
 
-      <calcite-block heading="Sports &amp; Events" open collapsible>
-        <calcite-icon icon="pin" slot="icon" scale="s"></calcite-icon>
-        <div class="chips" id="sbSports"></div>
-      </calcite-block>
+        <calcite-block heading="Sports &amp; Events" open collapsible>
+          <calcite-icon icon="pin" slot="icon" scale="s"></calcite-icon>
+          <div class="chips" id="sbSports"></div>
+        </calcite-block>
 
-      <calcite-block heading="Venue Details" open collapsible>
-        <calcite-icon icon="list" slot="icon" scale="s"></calcite-icon>
-        <div class="igrid" id="sbInfo"></div>
-      </calcite-block>
-    </calcite-panel>
+        <calcite-block heading="Venue Details" open collapsible>
+          <calcite-icon icon="list" slot="icon" scale="s"></calcite-icon>
+          <div class="igrid" id="sbInfo"></div>
+        </calcite-block>
 
-    <!-- Environment controls — always visible -->
-    <calcite-panel heading="Environment" heading-level="2">
-      <calcite-icon icon="effects" slot="header-actions-start" scale="s"></calcite-icon>
+        <calcite-notice open icon="x-circle" scale="s" kind="neutral" id="closeVenueBtn" class="close-venue-notice">
+          <span slot="message">Close venue details</span>
+        </calcite-notice>
+      </div>
 
+      <!-- Environment controls — always visible -->
       <calcite-block heading="Time of Day" open collapsible>
         <calcite-icon icon="clock" slot="icon" scale="s"></calcite-icon>
         <calcite-slider id="daylightSlider" min="0" max="23.5" value="10"
@@ -139,6 +141,7 @@
             step="0.05" scale="s"></calcite-slider>
         </calcite-label>
       </calcite-block>
+
     </calcite-panel>
   </calcite-shell-panel>
 

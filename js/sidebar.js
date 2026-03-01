@@ -2,17 +2,18 @@ let _onClose = null;
 
 export function initSidebar(onClose) {
   _onClose = onClose;
-  // Calcite panel: listen for the built-in close button event
-  document.getElementById("sidebar").addEventListener("calcitePanelClose", () => {
+  // Close venue details via the close notice button
+  document.getElementById("closeVenueBtn").addEventListener("click", () => {
     closeSidebar();
     if (_onClose) _onClose();
   });
 }
 
 export function showSidebar(venue) {
+  const section = document.getElementById("venueDetailSection");
   const sidebar = document.getElementById("sidebar");
 
-  // Calcite panel heading/description replace custom header elements
+  // Update block heading/description with venue name
   sidebar.heading = venue.name;
   sidebar.description = venue.loc;
 
@@ -30,14 +31,14 @@ export function showSidebar(venue) {
     `<div class="icard"><div class="icard-lbl">Year Built</div><div class="icard-val">${venue.built !== null ? venue.built : "TBD"}</div></div>` +
     `<div class="icard full"><div class="icard-lbl">Address</div><div class="icard-val">${venue.addr}</div></div>`;
 
-  // Show venue details panel (shell-panel stays open for environment controls)
-  sidebar.closed = false;
+  // Show venue detail section
+  section.classList.remove("venue-detail-hidden");
 }
 
 export function closeSidebar() {
-  document.getElementById("sidebar").closed = true;
+  document.getElementById("venueDetailSection").classList.add("venue-detail-hidden");
 }
 
 export function isSidebarOpen() {
-  return !document.getElementById("sidebar").closed;
+  return !document.getElementById("venueDetailSection").classList.contains("venue-detail-hidden");
 }

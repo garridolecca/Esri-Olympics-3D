@@ -179,6 +179,17 @@ html, body, calcite-shell {
   color: var(--text-secondary);
 }
 
+/* ========== RIGHT PANEL — VENUE DETAILS SECTION ========== */
+#venueDetailSection.venue-detail-hidden { display: none; }
+#venueDetailSection {
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 4px;
+}
+.close-venue-notice {
+  cursor: pointer;
+  margin: 4px 0 8px;
+}
+
 /* ========== SIDEBAR CONTENT ========== */
 .sb-desc {
   font-size: 0.88rem;
