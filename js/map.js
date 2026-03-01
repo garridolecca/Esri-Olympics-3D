@@ -8,7 +8,7 @@ import { VENUES, CAT_COLORS } from "./data.js";
 
 const byId = {};
 
-export const HOME_CAMERA = {
+const HOME_CAMERA = {
   position: { longitude: -118.30, latitude: 33.50, z: 55000 },
   tilt: 35,
   heading: 10
@@ -132,7 +132,7 @@ function createMapControls(view) {
   return bar;
 }
 
-export async function initMap(containerId, onVenueClick) {
+export async function initMap(containerId, onVenueClick, onLAView) {
   const map = new Map({
     basemap: "dark-gray-3d",
     ground: "world-elevation"
@@ -180,6 +180,18 @@ export async function initMap(containerId, onVenueClick) {
   // Calcite action-bar for map controls
   const controls = createMapControls(view);
   view.ui.add(controls, "top-left");
+
+  // LA View button — calcite-action added to map UI (same pattern as working action bar)
+  const laAction = document.createElement("calcite-action");
+  laAction.icon = "urban-model";
+  laAction.text = "LA View";
+  laAction.scale = "s";
+  laAction.style.cssText = "border:1px solid rgba(244,195,0,0.5);border-radius:4px;";
+  laAction.addEventListener("click", () => {
+    if (onLAView) onLAView();
+    view.goTo(venueLayer.graphics.toArray(), { duration: 1200, easing: "ease-in-out" });
+  });
+  view.ui.add(laAction, "top-right");
 
   // Click handler — 5.0 fix: Graphic.layer removed, use hit result's layer property
   view.on("click", async (e) => {

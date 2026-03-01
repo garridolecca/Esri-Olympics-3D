@@ -1,6 +1,7 @@
 import "./config.js";
 import { VENUES } from "./data.js";
 import { initMap, selectGraphic, deselectGraphic, filterByCategory } from "./map.js";
+
 import { initPanel, setActiveVenue, setCategoryFilter } from "./panel.js";
 import { initSidebar, showSidebar, closeSidebar, isSidebarOpen } from "./sidebar.js";
 import { initEnvironment } from "./environment.js";
@@ -67,9 +68,16 @@ function applyResponsiveLayout() {
 }
 
 (async () => {
-  const { view } = await initMap("viewDiv", handleVenueSelect);
+  const { view } = await initMap("viewDiv", handleVenueSelect, () => {
+    // Called when LA View button is clicked — deselect any active venue
+    if (currentVenueId !== null) {
+      deselectGraphic(currentVenueId);
+      setActiveVenue(null);
+      currentVenueId = null;
+      closeSidebar();
+    }
+  });
   mapView = view;
-  const initialCamera = view.camera.clone();
 
   // Dismiss loading screen
   const loader = document.getElementById("loadingScreen");
@@ -91,21 +99,6 @@ function applyResponsiveLayout() {
     const leftPanel = document.getElementById("leftPanel");
     leftPanel.collapsed = !leftPanel.collapsed;
   });
-
-  // LA View button — native div + real Camera instance for guaranteed behavior
-  const laViewBtn = document.createElement("div");
-  laViewBtn.id = "laViewBtn";
-  laViewBtn.textContent = "LA View";
-  laViewBtn.addEventListener("click", () => {
-    if (currentVenueId !== null) {
-      deselectGraphic(currentVenueId);
-      setActiveVenue(null);
-      currentVenueId = null;
-      closeSidebar();
-    }
-    mapView.goTo(initialCamera, { duration: 1200, easing: "ease-in-out" });
-  });
-  view.ui.add(laViewBtn, "top-right");
 
   // Category filter switches — wire calcite-switch events to filter logic
   const filterMap = {
