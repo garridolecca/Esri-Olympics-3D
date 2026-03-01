@@ -80,7 +80,13 @@
   </calcite-shell-panel>
 
   <!-- ====== MAP (Main Content) ====== -->
-  <div id="viewDiv"></div>
+  <div id="viewDiv">
+    <!-- LA View button — zooms to show all venues -->
+    <calcite-button id="laViewBtn" appearance="solid" kind="neutral"
+      icon-start="urban-model" scale="s" round>
+      LA View — All Venues
+    </calcite-button>
+  </div>
 
   <!-- ====== RIGHT PANEL (Calcite Shell Panel — single scrollable panel) ====== -->
   <calcite-shell-panel slot="panel-end" id="sidebarPanel" width-scale="m">

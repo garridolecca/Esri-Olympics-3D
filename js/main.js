@@ -1,6 +1,6 @@
 import "./config.js";
 import { VENUES } from "./data.js";
-import { initMap, selectGraphic, deselectGraphic, filterByCategory } from "./map.js";
+import { initMap, selectGraphic, deselectGraphic, filterByCategory, goToAllVenues } from "./map.js";
 import { initPanel, setActiveVenue, setCategoryFilter } from "./panel.js";
 import { initSidebar, showSidebar, closeSidebar, isSidebarOpen } from "./sidebar.js";
 import { initEnvironment } from "./environment.js";
@@ -89,6 +89,17 @@ function applyResponsiveLayout() {
   document.getElementById("menuToggle").addEventListener("click", () => {
     const leftPanel = document.getElementById("leftPanel");
     leftPanel.collapsed = !leftPanel.collapsed;
+  });
+
+  // LA View button — zoom out to show all venues
+  document.getElementById("laViewBtn").addEventListener("click", () => {
+    if (currentVenueId !== null) {
+      deselectGraphic(currentVenueId);
+      setActiveVenue(null);
+      currentVenueId = null;
+      closeSidebar();
+    }
+    goToAllVenues(mapView);
   });
 
   // Category filter switches — wire calcite-switch events to filter logic

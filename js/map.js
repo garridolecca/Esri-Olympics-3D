@@ -225,6 +225,13 @@ export function deselectGraphic(id) {
   if (v && byId[id]) byId[id].symbol = make3DSymbol(v.cat, false);
 }
 
+export function goToAllVenues(view) {
+  view.goTo(
+    { camera: HOME_CAMERA },
+    { duration: 1200, easing: "ease-in-out" }
+  );
+}
+
 export function filterByCategory(activeCategories) {
   VENUES.forEach(v => {
     if (byId[v.id]) {
